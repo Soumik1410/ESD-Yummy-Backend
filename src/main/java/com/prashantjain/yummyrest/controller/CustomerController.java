@@ -25,10 +25,10 @@ public class CustomerController {
 
     @PostMapping("/login")
     public ResponseEntity<String> loginCustomer(@RequestBody @Valid CustomerLoginRequest request) {
-        boolean response = customerService.loginCustomer(request);
-        if(response)
-            return ResponseEntity.ok("Login successful");
+        String response = customerService.loginCustomer(request);
+        if(!response.equals("Login Failed"))
+            return ResponseEntity.ok("Login successful\nJWT Token: " + response);
         else
-            return ResponseEntity.badRequest().body("Login failed");
+            return ResponseEntity.badRequest().body(response);
     }
 }

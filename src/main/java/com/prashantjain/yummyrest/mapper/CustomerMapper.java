@@ -14,7 +14,7 @@ public class CustomerMapper {
                 .password(request.password())
                 .address(request.address())
                 .city(request.city())
-                .pincode(request.address())
+                .pincode(request.pincode())
                 .build();
     }
 }
