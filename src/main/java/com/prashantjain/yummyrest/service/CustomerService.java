@@ -11,6 +11,7 @@ import com.prashantjain.yummyrest.helper.JWTHelper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
@@ -29,12 +30,15 @@ public class CustomerService {
         return "Created";
     }
 
+    @Transactional
     public String loginCustomer(CustomerLoginRequest request) {
         Customer customer = repo.findByEmail(request.email());
         if(customer == null)
             return "Login Failed";
         if(!encryptionService.validates(request.password(), customer.getPassword()))
             return "Login Failed";
-        return jwtHelper.generateToken(request.email());
+        String token = jwtHelper.generateToken(request.email());
+        repo.insertAccessToken(request.email(), token);
+        return token;
     }
 }
