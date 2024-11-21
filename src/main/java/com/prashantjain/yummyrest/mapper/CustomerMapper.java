@@ -12,6 +12,9 @@ public class CustomerMapper {
                 .lastName(request.lastName())
                 .email(request.email())
                 .password(request.password())
+                .address(request.address())
+                .city(request.city())
+                .pincode(request.address())
                 .build();
     }
 }
