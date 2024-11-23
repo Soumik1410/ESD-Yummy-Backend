@@ -39,4 +39,13 @@ public class CustomerController {
         else
             return ResponseEntity.badRequest().body("Invalid/Expired Access Token");
     }
+
+    @DeleteMapping("/deleteCustomer")
+    public ResponseEntity<String> deleteCustomer(@RequestBody @Valid CustomerDetailsRequest request) {
+        CustomerResponse obj = customerService.deleteCustomer(request);
+        if(obj != null)
+            return ResponseEntity.ok("Deleted customer entry : " + obj.toString());
+        else
+            return ResponseEntity.badRequest().body("Invalid/Expired Access Token");
+    }
 }

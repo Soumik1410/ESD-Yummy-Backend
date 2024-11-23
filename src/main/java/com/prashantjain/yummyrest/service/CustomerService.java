@@ -53,4 +53,14 @@ public class CustomerService {
         return customerMapper.toCustomerResponse(customer);
     }
 
+    public CustomerResponse deleteCustomer(CustomerDetailsRequest request) {
+        boolean validity = jwtHelper.validateToken(request.access_token());
+        if(!validity)
+            return null;
+        String email = jwtHelper.extractUsername(request.access_token());
+        Customer customer = repo.findByEmail(email);
+        repo.delete(customer);
+        return customerMapper.toCustomerResponse(customer);
+    }
+
 }
