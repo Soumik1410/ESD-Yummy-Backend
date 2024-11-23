@@ -17,4 +17,9 @@ public interface CustomerRepo extends JpaRepository<Customer, Long> {
     @Transactional
     @Query(value = "UPDATE customer SET access_token =?2 WHERE email = ?1", nativeQuery = true)
     void insertAccessToken(String email, String token);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE customer SET first_name =?2, last_name=?3, address=?4, city=?5, pincode=?6 WHERE email = ?1", nativeQuery = true)
+    void updateCustomer(String email, String first_name, String last_name, String address, String city, String pincode);
 }

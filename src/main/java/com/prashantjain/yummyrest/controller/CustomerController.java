@@ -1,14 +1,13 @@
 package com.prashantjain.yummyrest.controller;
 
-import com.prashantjain.yummyrest.dto.CustomerDetailsRequest;
-import com.prashantjain.yummyrest.dto.CustomerLoginRequest;
-import com.prashantjain.yummyrest.dto.CustomerRequest;
-import com.prashantjain.yummyrest.dto.CustomerResponse;
+import com.prashantjain.yummyrest.dto.*;
 import com.prashantjain.yummyrest.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -45,6 +44,16 @@ public class CustomerController {
         CustomerResponse obj = customerService.deleteCustomer(request);
         if(obj != null)
             return ResponseEntity.ok("Deleted customer entry : " + obj.toString());
+        else
+            return ResponseEntity.badRequest().body("Invalid/Expired Access Token");
+    }
+
+    @PutMapping("/updateDetails")
+    public ResponseEntity<String> updateCustomer(@RequestBody @Valid CustomerDetailsUpdateRequest request) {
+        String result = customerService.updateCustomer(request);
+        if(result != null)
+            //return ResponseEntity.ok("Old details : " + obj.get(0).toString() + "\nNew updated details : " + obj.get(1).toString());
+            return ResponseEntity.ok(result);
         else
             return ResponseEntity.badRequest().body("Invalid/Expired Access Token");
     }
