@@ -53,6 +53,7 @@ public class CustomerService {
         return customerMapper.toCustomerResponse(customer);
     }
 
+    @Transactional
     public CustomerResponse deleteCustomer(CustomerDetailsRequest request) {
         boolean validity = jwtHelper.validateToken(request.access_token());
         if(!validity)
