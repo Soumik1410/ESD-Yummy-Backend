@@ -1,5 +1,6 @@
 package com.prashantjain.yummyrest.service;
 
+import com.prashantjain.yummyrest.dto.CustomerDetailsRequest;
 import com.prashantjain.yummyrest.dto.CustomerLoginRequest;
 import com.prashantjain.yummyrest.dto.CustomerRequest;
 import com.prashantjain.yummyrest.dto.CustomerResponse;
@@ -22,6 +23,7 @@ public class CustomerService {
     private final CustomerMapper mapper;
     private final EncryptionService encryptionService;
     private final JWTHelper jwtHelper;
+    private final CustomerMapper customerMapper;
 
     public String createCustomer(CustomerRequest request) {
         Customer customer = mapper.toEntity(request);
@@ -41,4 +43,14 @@ public class CustomerService {
         repo.insertAccessToken(request.email(), token);
         return token;
     }
+
+    public CustomerResponse getCustomer(CustomerDetailsRequest request) {
+        boolean validity = jwtHelper.validateToken(request.access_token());
+        if(!validity)
+            return null;
+        String email = jwtHelper.extractUsername(request.access_token());
+        Customer customer = repo.findByEmail(email);
+        return customerMapper.toCustomerResponse(customer);
+    }
+
 }

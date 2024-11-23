@@ -1,6 +1,7 @@
 package com.prashantjain.yummyrest.mapper;
 
 import com.prashantjain.yummyrest.dto.CustomerRequest;
+import com.prashantjain.yummyrest.dto.CustomerResponse;
 import com.prashantjain.yummyrest.entity.Customer;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +17,9 @@ public class CustomerMapper {
                 .city(request.city())
                 .pincode(request.pincode())
                 .build();
+    }
+
+    public CustomerResponse toCustomerResponse(Customer customer) {
+        return new CustomerResponse(customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getAddress(), customer.getCity(), customer.getPincode());
     }
 }

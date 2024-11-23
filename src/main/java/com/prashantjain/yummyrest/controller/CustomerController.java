@@ -1,15 +1,14 @@
 package com.prashantjain.yummyrest.controller;
 
+import com.prashantjain.yummyrest.dto.CustomerDetailsRequest;
 import com.prashantjain.yummyrest.dto.CustomerLoginRequest;
 import com.prashantjain.yummyrest.dto.CustomerRequest;
+import com.prashantjain.yummyrest.dto.CustomerResponse;
 import com.prashantjain.yummyrest.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,5 +29,14 @@ public class CustomerController {
             return ResponseEntity.ok("Login successful\nJWT Token: " + response);
         else
             return ResponseEntity.badRequest().body(response);
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<String> getCustomer(@RequestBody @Valid CustomerDetailsRequest request) {
+        CustomerResponse obj = customerService.getCustomer(request);
+        if(obj != null)
+            return ResponseEntity.ok(obj.toString());
+        else
+            return ResponseEntity.badRequest().body("Invalid/Expired Access Token");
     }
 }
