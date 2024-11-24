@@ -1,6 +1,7 @@
 package com.prashantjain.yummyrest.service;
 
 import com.prashantjain.yummyrest.dto.*;
+import com.prashantjain.yummyrest.entity.Customer;
 import com.prashantjain.yummyrest.entity.Product;
 import com.prashantjain.yummyrest.mapper.ProductMapper;
 import com.prashantjain.yummyrest.repo.ProductRepo;
@@ -11,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,4 +29,14 @@ public class ProductService {
         return "Created";
     }
 
+    public ProductResponse getProduct(Long id) {
+        Product product;
+        try {
+            product = repo.findById(id).get();
+        }
+        catch (NoSuchElementException e) {
+            return null;
+        }
+        return mapper.toProductResponse(product);
+    }
 }

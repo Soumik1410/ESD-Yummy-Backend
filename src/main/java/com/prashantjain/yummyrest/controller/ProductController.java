@@ -21,4 +21,12 @@ public class ProductController {
         return ResponseEntity.ok(productService.createProduct(request));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getProduct(@PathVariable  Long id) {
+        ProductResponse obj = productService.getProduct(id);
+        if(obj != null)
+            return ResponseEntity.ok(obj.toString());
+        else
+            return ResponseEntity.badRequest().body("Invalid product id passed in request");
+    }
 }
