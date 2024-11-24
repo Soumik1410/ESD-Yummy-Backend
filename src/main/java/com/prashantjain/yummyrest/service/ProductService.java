@@ -39,4 +39,17 @@ public class ProductService {
         }
         return mapper.toProductResponse(product);
     }
+
+    @Transactional
+    public ProductResponse deleteProduct(Long id) {
+        Product product;
+        try {
+            product = repo.findById(id).get();
+        }
+        catch (NoSuchElementException e) {
+            return null;
+        }
+        repo.delete(product);
+        return mapper.toProductResponse(product);
+    }
 }

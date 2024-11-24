@@ -29,4 +29,13 @@ public class ProductController {
         else
             return ResponseEntity.badRequest().body("Invalid product id passed in request");
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable  Long id) {
+        ProductResponse obj = productService.deleteProduct(id);
+        if(obj != null)
+            return ResponseEntity.ok("Deleted customer entry : " + obj.toString());
+        else
+            return ResponseEntity.badRequest().body("Invalid/Expired Access Token");
+    }
 }
