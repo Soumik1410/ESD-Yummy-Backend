@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -69,4 +70,11 @@ public class ProductService {
         repo.save(Product);
         return "Updated Successfully";
     }
+
+    public List<Product> getTop2ProductBetween15and30() {
+        List<Product> products = null;
+        products = repo.findTop2ProductsByPriceBetween15And30();
+        return products;
+    }
+
 }

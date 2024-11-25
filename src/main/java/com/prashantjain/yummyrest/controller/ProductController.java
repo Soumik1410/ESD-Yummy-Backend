@@ -1,6 +1,7 @@
 package com.prashantjain.yummyrest.controller;
 
 import com.prashantjain.yummyrest.dto.*;
+import com.prashantjain.yummyrest.entity.Product;
 import com.prashantjain.yummyrest.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -47,5 +48,23 @@ public class ProductController {
             return ResponseEntity.ok(result);
         else
             return ResponseEntity.badRequest().body("Invalid/Expired Access Token");
+    }
+
+    @GetMapping("/top2ProductBetween15and30")
+    public ResponseEntity<String> getTop2ProductBetween15and30() {
+        List<Product> obj = productService.getTop2ProductBetween15and30();
+        if(obj != null) {
+            if (obj.isEmpty())
+                return ResponseEntity.ok("No suitable products within the price range");
+            String body = "";
+            if (obj.get(0) != null)
+                body = body + obj.get(0).toString();
+            if (obj.size() > 1 && obj.get(1) != null)
+                body = body + "\n" + obj.get(1).toString();
+            return ResponseEntity.ok(body);
+        }
+        else {
+            return ResponseEntity.ok("No suitable products within the price range");
+        }
     }
 }
