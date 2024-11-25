@@ -52,4 +52,21 @@ public class ProductService {
         repo.delete(product);
         return mapper.toProductResponse(product);
     }
+
+    @Transactional
+    public String updateProduct(Long id, ProductUpdateRequest request) {
+        Product Product;
+        try {
+            Product = repo.findById(id).get();
+        }
+        catch (NoSuchElementException e) {
+            return null;
+        }
+        if(request.name()!= null && !request.name().isEmpty())
+            Product.setName(request.name());
+        if(request.price()!= null && !request.price().isEmpty())
+            Product.setPrice(request.price());
+        repo.save(Product);
+        return "Updated Successfully";
+    }
 }

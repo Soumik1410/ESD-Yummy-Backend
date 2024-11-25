@@ -38,4 +38,14 @@ public class ProductController {
         else
             return ResponseEntity.badRequest().body("Invalid/Expired Access Token");
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductUpdateRequest request) {
+        String result = productService.updateProduct(id, request);
+        if(result != null)
+            //return ResponseEntity.ok("Old details : " + obj.get(0).toString() + "\nNew updated details : " + obj.get(1).toString());
+            return ResponseEntity.ok(result);
+        else
+            return ResponseEntity.badRequest().body("Invalid/Expired Access Token");
+    }
 }
